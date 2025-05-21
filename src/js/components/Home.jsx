@@ -1,27 +1,30 @@
-import React from "react";
+ import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { SecondsCounter } from "./SecondsCounter.jsx";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
-//create your first component
 const Home = () => {
-	return (
-		<div className="text-center">
-            
+	const [timer, setTimer] = useState(0);
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setTimer(value => value + 1);
+		}, 1000);
+		return () => clearInterval(interval);
+	}, []);
+
+	return (
+		<main className="text-center">
+			<section className="counter-holder">
+				<SecondsCounter number={<FontAwesomeIcon icon={faClock} size="lg" style={{ color: "#FFD43B" }} />} />
+				<SecondsCounter number={Math.floor(timer / 100000) % 10} />
+				<SecondsCounter number={Math.floor(timer / 10000) % 10} />
+				<SecondsCounter number={Math.floor(timer / 1000) % 10} />
+				<SecondsCounter number={Math.floor(timer / 100) % 10} />
+				<SecondsCounter number={Math.floor(timer / 10) % 10} />
+				<SecondsCounter number={timer % 10} />
+			</section>
+		</main>
 	);
 };
 
